@@ -625,7 +625,6 @@
                 <div class="form-group"><label>আপনার নাম</label><input type="text" id="reg-name" class="form-control" placeholder="নাম লিখুন" required></div>
                 <div class="form-group"><label>ফোন নাম্বার</label><input type="tel" id="reg-phone" class="form-control" placeholder="01XXXXXXXXX" required></div>
                 <!-- NEW: EMAIL INPUT -->
-                <div class="form-group"><label>জিমেইল (@gmail.com)</label><input type="email" id="reg-email" class="form-control" placeholder="example@gmail.com" required></div>
                 <div class="form-group"><label>পাসওয়ার্ড</label><input type="password" id="reg-pass" class="form-control" placeholder="******" required></div>
                 <!-- REFERRAL INPUT -->
                 <div class="form-group"><label>রেফারেল কোড (ঐচ্ছিক)</label><input type="text" id="reg-ref" class="form-control" placeholder="FSV12345" style="letter-spacing: 1px; text-transform: uppercase;"></div>
@@ -710,27 +709,6 @@ border:1px dashed #555;">
         </div>
     </div>
 
-    <!-- EMAIL VERIFICATION MODAL (NEW) -->
-    <div id="verify-email-modal" class="popup-overlay hidden">
-        <div class="popup-content">
-            <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 10px;">
-                <i class="fas fa-envelope-open-text"></i>
-            </div>
-            <h3>ইমেইল ভেরিফিকেশন</h3>
-            <p style="font-size: 0.9rem; margin: 15px 0; color: var(--text-muted);">
-                আমরা একটি ভেরিফিকেশন কোড পাঠিয়েছি:<br>
-                <span id="verify-email-display" style="color: var(--accent-color); font-weight: bold;">email@gmail.com</span>
-            </p>
-            <p style="font-size: 0.8rem; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; margin-bottom: 15px;">
-                <span style="color: var(--success);">ডেমো মোড:</span> যেহেতু এটি একটি ডেমো অ্যাপ, আপনার জিমেইলে আসল ইমেইল পাঠানো সম্ভব নয়। কোডটি হলো: <span id="demo-code-display" style="font-weight: bold; color: var(--accent-color); font-size: 1.1rem;"></span>
-            </p>
-            <div class="form-group">
-                <input type="text" id="verify-code-input" class="form-control" placeholder="কোড লিখুন (যেমন: 123456)" maxlength="6" style="text-align: center; font-size: 1.2rem; letter-spacing: 5px;">
-            </div>
-            <button class="btn btn-primary" onclick="submitVerifyCode()">ভেরিফাই করুন</button>
-            <button class="btn close-small-btn" onclick="closeVerifyModal()">বাতিল</button>
-        </div>
-    </div>
 
     <!-- SPIN WHEEL MODAL -->
     <div id="spin-modal" class="popup-overlay hidden">
@@ -1453,21 +1431,6 @@ border:1px dashed #555;">
                 return;
             }
 
-            // Gmail Validation
-            if (!email.endsWith('@gmail.com')) {
-                showToast('শুধুমাত্র @gmail.com ইমেইল গ্রহণযোগ্য।');
-                return;
-            }
-
-            if(pass.length < 4) {
-                showToast('পাসওয়ার্ড কমপক্ষে ৪ ডিজিটের হতে হবে।');
-                return;
-            }
-
-            btn.disabled = true;
-            btn.innerText = 'প্রসেসিং...';
-
-            try {
                 // Check if phone exists
                 const snapshot = await db.ref('users').orderByChild('phone').equalTo(phone).once('value');
                 
